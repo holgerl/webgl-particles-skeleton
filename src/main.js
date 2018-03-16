@@ -1,84 +1,75 @@
-"use strict";
+import * as THREE from 'three';
 
-window.HL = window.HL || {};
+const nofParticles = 40000;
 
-HL.parameters = {};
+let timeStart;
+let camera;
+let renderer;
+let scene;
 
-HL.parameters.nofParticles = 40000;
+const uniforms = {
+	time: {value: 0.0},
+	pixelRatio: {value: window.devicePixelRatio},
+	nofParticles: {value: nofParticles},
+	particleSize: {value: window.screen.width/4},
+};
 
-HL.initAnimation = function(domNodeId, canvasId, percentageOfWindowHeight) {
+const initAnimation = function(domNodeId, canvasId) {
 
-	HL.timeStart = new Date().getTime();
+	timeStart = new Date().getTime();
 
-	HL.vertexShaderCode = document.getElementById('vertexshader').textContent;
+	const vertexShaderCode = document.getElementById('vertexshader').textContent;
 
-	HL.fragmentShaderCode = document.getElementById('fragmentshader').textContent;
+	const fragmentShaderCode = document.getElementById('fragmentshader').textContent;
 
-	var renderer = new THREE.WebGLRenderer({antialias: false});
+	renderer = new THREE.WebGLRenderer({antialias: false});
 	renderer.gammaInput = true;
 	renderer.gammaOutput = true;
 	renderer.setClearColor(0x1D1D1D);
 	renderer.domElement.setAttribute('id', canvasId);
-	renderer.setSize(window.innerWidth, window.innerHeight * percentageOfWindowHeight, true); // TODO: Multiply by device pixel ratio
+	renderer.setSize(window.innerWidth, window.innerHeight, true); // TODO: Multiply by device pixel ratio
 	renderer.setPixelRatio(window.devicePixelRatio || 1);
 
-	HL.renderer = renderer;
-
-	var ratio = renderer.getContext().drawingBufferWidth / renderer.getContext().drawingBufferHeight;
+	const ratio = renderer.getContext().drawingBufferWidth / renderer.getContext().drawingBufferHeight;
 	
-	var camera = new THREE.PerspectiveCamera(60, ratio, 0.1, 10000);
+	camera = new THREE.PerspectiveCamera(60, ratio, 0.1, 10000);
 	camera.position.set(-150, 50, 0)
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 	camera.updateProjectionMatrix();
 
 	document.getElementById(domNodeId).appendChild(renderer.domElement);
 
-	var scene = new THREE.Scene();
-	HL.scene = scene;
-	HL.camera = camera;
+	scene = new THREE.Scene();
 
-	var geometry = makeGeometry();
+	const geometry = makeGeometry();
 
-	var uniforms = {
-		time: {value: 0.0},
-		pixelRatio: {value: window.devicePixelRatio},
-		nofParticles: {value: HL.parameters.nofParticles},
-		particleSize: {value: 1000},
-	};
-	window.uniforms = uniforms;
-
-	var material = new THREE.ShaderMaterial({
+	const material = new THREE.ShaderMaterial({
 		uniforms: uniforms,
-		vertexShader: HL.vertexShaderCode,
-		fragmentShader: HL.fragmentShaderCode,
+		vertexShader: vertexShaderCode,
+		fragmentShader: fragmentShaderCode,
 		transparent: true
 	});
 
-	var points = new THREE.Points(geometry, material);
+	const points = new THREE.Points(geometry, material);
 	scene.add(points);
 }
 
 function makeGeometry() {
-	var positions = new Float32Array(HL.parameters.nofParticles * 3);
+	const positions = new Float32Array(nofParticles * 3);
 
-	var geometry = new THREE.BufferGeometry();
+	const geometry = new THREE.BufferGeometry();
 
 	geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-	var vertexIndecies = new Float32Array(HL.parameters.nofParticles);
-	for (var i = 0; i < vertexIndecies.length; i++) {
+	const vertexIndecies = new Float32Array(nofParticles);
+	for (let i = 0; i < vertexIndecies.length; i++) {
 		vertexIndecies[i] = i;
 	}
 
 	geometry.addAttribute('vertexIndex', new THREE.BufferAttribute(vertexIndecies, 1));
 
-	var deviance1 = new Float32Array(HL.parameters.nofParticles);
-	for (var i = 0; i < deviance1.length; i++) {
-		deviance1[i] = Math.random();
-	}
-
-	var deviance = new Float32Array(HL.parameters.nofParticles * 4);
-	for (var i = 0; i < deviance.length; i++) {
+	const deviance = new Float32Array(nofParticles * 4);
+	for (let i = 0; i < deviance.length; i++) {
 		deviance[i] = Math.random();
 	}
 
@@ -89,10 +80,15 @@ function makeGeometry() {
 	return geometry;
 }
 
-HL.animate = function() {
-	requestAnimationFrame(HL.animate);
+const animate = function() {
+	requestAnimationFrame(animate);
 
-	window.uniforms.time.value = (new Date().getTime() - HL.timeStart)/1000;
+	uniforms.time.value = (new Date().getTime() - timeStart) / 1000;
 
-	HL.renderer.render(HL.scene, HL.camera);
+	renderer.render(scene, camera);
+}
+
+export default function main() {
+	initAnimation("container", "renderer");
+	animate();
 }

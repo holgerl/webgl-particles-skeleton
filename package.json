@@ -1,0 +1,29 @@
+{
+  "name": "webgl-particles-skeleton",
+  "version": "1.0.0",
+  "description": "Skeleton code for a WebGL particles visualization using three.js",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "webpack-dev-server --port=8081",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/holgerl/webgl-particles-skeleton.git"
+  },
+  "author": "Holger Ludvigsen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/holgerl/webgl-particles-skeleton/issues"
+  },
+  "homepage": "https://github.com/holgerl/webgl-particles-skeleton#readme",
+  "devDependencies": {
+    "babel-loader": "^7.1.4",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12",
+    "webpack-dev-server": "^3.1.1"
+  },
+  "dependencies": {
+    "three": "^0.91.0"
+  }
+}
