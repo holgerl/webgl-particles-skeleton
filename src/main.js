@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+
 import fragmentShaderCode from './fragmentshader.glsl';
 import vertexShaderCode from './vertexshader.glsl';
 
