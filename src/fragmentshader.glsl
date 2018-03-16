@@ -1,5 +1,6 @@
 uniform float time;
 
+varying vec4 devianceForFragshader;
 varying vec3 particlePosition;
 
 vec4 circle(vec3 color, vec2 pointCoord) {
@@ -21,5 +22,12 @@ vec4 circle(vec3 color, vec2 pointCoord) {
 
 void main() {
   vec3 white = vec3(1.0);
-  gl_FragColor = circle(white, gl_PointCoord);
+  vec3 green = vec3(0.5, 1.0, 0.5);
+  vec3 red = vec3(1.0, 0.25, 0.25);
+
+  vec3 color = white;
+  if (devianceForFragshader.y < 0.03) color = green;
+  if (devianceForFragshader.y > 0.2) color = red;
+
+  gl_FragColor = circle(color, gl_PointCoord);
 }

@@ -6,6 +6,7 @@ uniform float particleSize;
 uniform float pixelRatio;
 
 varying vec3 particlePosition;
+varying vec4 devianceForFragshader;
 
 attribute float vertexIndex;
 attribute vec4 deviance;
@@ -27,12 +28,13 @@ float easeInOutQuad(float t) {
 }
 
 vec3 targetPosition() {
-  float width = 30.0;
+  float width = 20.0;
+  float height = 40.0;
   float z = -width/2.0;
-  if (deviance.y < 0.03) z -= 50.0;
-  if (deviance.y > 0.2) z += 50.0;
+  if (deviance.y < 0.03) z -= width;
+  if (deviance.y > 0.2) z += width;
 
-  return vec3(-20.0, 60.0 + deviance.w*10.0, z + deviance.z*width);
+  return vec3(-20.0, 30.0 + deviance.w*height, z + deviance.z*width);
 }
 
 void main() {
@@ -54,9 +56,11 @@ void main() {
   vec3 newPosition = mix(startPosition, targetPosition, easeInOutQuad(relativeTime));
 
   particlePosition = newPosition;
+  devianceForFragshader = deviance;
 
   vec4 mvPosition = modelViewMatrix * vec4(newPosition, 1.0);
-    gl_PointSize = particleSize/length(mvPosition.xyz);
+  
+  gl_PointSize = particleSize/length(mvPosition.xyz);
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
 }
