@@ -27,6 +27,32 @@ float easeInOutQuad(float t) {
   return t < 0.5 ? 2.0*t*t : -1.0+(4.0-2.0*t)*t;
 }
 
+vec2 get2DCoord(float index, float width) {
+  float x = mod(vertexIndex, width);
+  float y = floor(vertexIndex / width);
+
+  return vec2(x, y);
+}
+
+vec3 startPosition() {
+  float square = floor(sqrt(nofParticles));
+
+  vec2 coord2D = get2DCoord(vertexIndex, square) - vec2(square/2.0);
+
+  vec3 gridPosition = vec3(coord2D.x, 0, coord2D.y);
+
+  float wavelength = 1.0/10.0;
+  float wavespeed = 3.0;
+  float amplitude = 3.0;
+  float wave = amplitude * sin(gridPosition.z*wavelength + time*wavespeed);
+
+  return vec3(
+    gridPosition.x, 
+    gridPosition.y + wave, 
+    gridPosition.z
+  );
+}
+
 vec3 targetPosition() {
   float width = 20.0;
   float height = 40.0;
@@ -38,19 +64,14 @@ vec3 targetPosition() {
 }
 
 void main() {
-  float square = floor(sqrt(nofParticles));
 
-  float x = mod(vertexIndex, square);
-  float y = floor(vertexIndex / square);
-
-  vec3 gridPosition = vec3(x - square/2.0, 0, y - square/2.0);
-
-  vec3 startPosition = vec3(gridPosition.x, gridPosition.y + 3.0 * sin(gridPosition.z/10.0 + time*3.0), gridPosition.z);
+  vec3 startPosition = startPosition();
   
   vec3 targetPosition = targetPosition();
 
-  float speed = 1.0/2.0;
-  float relativeTime = (time - deviance.x*10.0)*speed;
+  float movementSpeed = 1.0/2.0;
+  float releaseTempo = 1.0/10.0;
+  float relativeTime = (time - deviance.x/releaseTempo) * movementSpeed;
   relativeTime = clamp(relativeTime, 0.0, 1.0);
 
   vec3 newPosition = mix(startPosition, targetPosition, easeInOutQuad(relativeTime));
