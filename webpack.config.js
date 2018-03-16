@@ -8,7 +8,8 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.js$/, use: 'babel-loader' }
+      { test: /\.js$/, use: 'babel-loader' },
+      { test: /\.glsl$/, use: 'webpack-glsl-loader'}
     ]
   }
 };

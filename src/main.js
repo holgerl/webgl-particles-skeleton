@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import fragmentShaderCode from './fragmentshader.glsl';
+import vertexShaderCode from './vertexshader.glsl';
 
 const nofParticles = 40000;
 
@@ -17,10 +19,6 @@ const uniforms = {
 const initAnimation = function(domNodeId, canvasId) {
 
 	timeStart = new Date().getTime();
-
-	const vertexShaderCode = document.getElementById('vertexshader').textContent;
-
-	const fragmentShaderCode = document.getElementById('fragmentshader').textContent;
 
 	renderer = new THREE.WebGLRenderer({antialias: false});
 	renderer.gammaInput = true;
