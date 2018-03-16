@@ -1,2 +1,14 @@
 # webgl-particles-skeleton
-This is a skeleton for particle visualization in WebGL using Three.js
+
+This is skeleton code for a particle visualization in WebGL.
+
+It uses Three.js and Webpack.
+
+### Build
+
+```
+npm install
+webpack
+```
+
+Open `main.html`
