@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/holgerl/webgl-particles-skeleton#readme",
   "devDependencies": {
+    "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "copy-webpack-plugin": "^4.5.1",
     "webpack": "^4.1.1",

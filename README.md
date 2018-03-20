@@ -6,10 +6,14 @@ It uses Three.js and Webpack.
 
 See [the resulting visualization here](https://holgerl.github.io/webgl-particles-skeleton/).
 
-## Build
+## Building
 
 ```
+npm install webpack webpack-cli -g
 npm install
+```
+
+```
 webpack
 ```
 
