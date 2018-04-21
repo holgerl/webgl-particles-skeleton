@@ -4,7 +4,7 @@
   "description": "Skeleton code for a WebGL particles visualization using three.js",
   "main": "src/index.js",
   "scripts": {
-    "start": "webpack-dev-server --port=8081",
+    "start": "webpack-dev-server --port=8081 --mode development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
