@@ -50,6 +50,8 @@ const initAnimation = function(domNodeId, canvasId) {
 
 	const points = new THREE.Points(geometry, material);
 	scene.add(points);
+
+	addResizeListener(camera, renderer);
 }
 
 function makeGeometry() {
@@ -84,6 +86,15 @@ const animate = function() {
 	uniforms.time.value = (new Date().getTime() - timeStart) / 1000;
 
 	renderer.render(scene, camera);
+}
+
+const addResizeListener = function(camera, renderer) {
+	window.addEventListener('resize', function() {
+		var height = window.innerHeight;
+		renderer.setSize(window.innerWidth, height);
+		camera.aspect = window.innerWidth / height;
+		camera.updateProjectionMatrix();
+	});
 }
 
 export default function main() {

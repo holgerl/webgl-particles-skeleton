@@ -5,6 +5,7 @@ const webpack = require('webpack'),
 module.exports = {
   entry: './src/index.js',
   output: {
+    publicPath: '/dist',
     filename: 'bundle.js'
   },
   module: {
@@ -16,7 +17,7 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin([
       { from: './dist/*', to: '../docs/' },
-      { from: './main.html', to: '../docs/index.html' }
+      { from: './index.html', to: '../docs/index.html' }
     ], {}),
   ]
 };

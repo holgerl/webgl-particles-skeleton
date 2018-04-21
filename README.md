@@ -6,18 +6,28 @@ It uses Three.js and Webpack.
 
 See [the resulting visualization here](https://holgerl.github.io/webgl-particles-skeleton/).
 
-## Building
+## Installing
 
 ```
 npm install webpack webpack-cli -g
 npm install
 ```
 
+## Building once
+
 ```
 webpack
 ```
 
-Open `main.html`
+Open `index.html`
+
+## Live building and reloading
+
+```
+npm start
+```
+
+Open `http://localhost:8081/webpack-dev-server/`
 
 ## The code
 
@@ -31,7 +41,7 @@ src/
 │   ├── index.js        // The js entry point
 │   ├── main.js         // The setup code for the visualization
 │   └── vertexshader.glsl   // Vertex shader calculates the particle positions
-├── main.html           // The html entry point
+├── index.html           // The html entry point
 ├── package.json        // NPM config file
 ├── README.md           // This readme!
 └── webpack.config.js   // Webpack build config
